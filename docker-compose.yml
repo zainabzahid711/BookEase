@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./demo-project
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    env_file:
+      - ./.env
+    environment:
+      NEXT_PUBLIC_API_URL: "http://localhost:1337"
+      NODE_ENV: development
+    command: npm run dev
+    volumes:
+      - ./demo-project:/app
+      - /app/node_modules
+      - ~/.npm:/root/.npm
+
+  backend:
+    build:
+      context: ./demo-strapi
+      dockerfile: Dockerfile
+    ports:
+      - "1337:1337"
+    env_file:
+      - ./.env
+    environment:
+      DATABASE_CLIENT: "sqlite"
+      NODE_ENV: "development"
+    volumes:
+      - ./demo-strapi:/app
+      - /app/node_modules
+      - strapi-data:/app/data  # persist sqlite db here
+
+volumes:
+  strapi-data:
