@@ -1,9 +1,14 @@
 [submodule "ai-azureStay"]
-	path = ai-azureStay
-	url = git@github.com:zainabzahid711/ai-azureStay.git
+    path = ai-azureStay
+    # to:
+    url = https://github.com/zainabzahid711/ai-azureStay.git
+
 [submodule "demo-project"]
-	path = demo-project
-	url = git@github.com:zainabzahid711/demo-project.git
+    path = demo-project
+    # to:
+    url = https://github.com/zainabzahid711/demo-project.git
+
 [submodule "demo-strapi"]
-	path = demo-strapi
-	url = git@github.com:zainabzahid711/demo-strapi.git
+    path = demo-strapi
+    # to:
+    url = https://github.com/zainabzahid711/demo-strapi.git
