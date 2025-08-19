@@ -1,0 +1,19 @@
+# Production-optimized Strapi backend
+FROM node:18-alpine
+WORKDIR /app
+
+# Copy only what's needed from backend
+COPY demo-strapi/package*.json ./
+COPY demo-strapi/ ./
+
+# Install dependencies
+RUN npm config set registry https://registry.npmjs.org/ \
+    && npm config set fetch-retry-maxtimeout 600000 \
+    && npm config set fetch-timeout 600000 \
+    && npm install --production --silent
+
+# Build for production
+RUN npm run build
+
+EXPOSE 1337
+CMD ["npm", "start"]

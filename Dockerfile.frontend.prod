@@ -1,0 +1,27 @@
+# Production-optimized Next.js frontend
+FROM node:18-alpine AS builder
+WORKDIR /app
+
+# Copy only what's needed from frontend
+COPY demo-project/package*.json ./
+COPY demo-project/ ./
+
+# Install and build
+RUN npm config set registry https://registry.npmjs.org/ \
+    && npm config set fetch-retry-maxtimeout 600000 \
+    && npm config set fetch-timeout 600000 \
+    && npm install --silent \
+    && npm run build
+
+# Production image
+FROM node:18-alpine
+WORKDIR /app
+
+ENV NODE_ENV=production
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/node_modules ./node_modules
+
+EXPOSE 3000
+CMD ["npm", "start"]
